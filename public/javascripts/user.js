@@ -1,4 +1,4 @@
-d3.json("https://biobots-api.herokuapp.com/users/user5@gmail.com/prints", function(err, data) {
+d3.json("/public/biobots_data.json", function(err, data) {
     if(error) throw error;
 
     var columns = [

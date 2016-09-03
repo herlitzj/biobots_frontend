@@ -1,5 +1,7 @@
 d3.json("/users/all", function(err, data) {
-  if(error) throw error;
+  if(err) throw err;
+
+  data = JSON.parse(data);
 
   var columns = [
       { head: 'Email', cl: 'title',
@@ -33,6 +35,7 @@ d3.json("/users/all", function(err, data) {
               d3.keys(c).forEach((k) => {
                   cell[k] = typeof c[k] == 'function' ? c[k](row) : c[k];
               });
+              console.log("CELL: ", cell)
               return cell;
           });
       }).enter()

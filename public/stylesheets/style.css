@@ -8,6 +8,7 @@ body {
 
 table {
     margin: 10px;
+    border-collapse: collapse;
 }
 th, td {
     padding: 5px;
@@ -28,6 +29,29 @@ button {
   position: absolute;
   right: 10px;
   top: 10px;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
 }
 
 .bullet { font: 10px sans-serif; }

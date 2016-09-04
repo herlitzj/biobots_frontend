@@ -1,11 +1,13 @@
-d3.json("/users/all", function(err, data) {
+var path = encodeURIComponent("/users/all");
+
+d3.json("/callapi?path=" + path, function(err, data) {
   if(err) throw err;
 
   data = JSON.parse(data);
 
   var columns = [
       { head: 'Email', cl: 'title',
-        html: (row) => '<a href="https://biobots-api.herokuapp.com/users/' + row.email + '/prints">' +  row.email +'</a>'},
+        html: (row) => '<a href="/users/' + row.email + '/prints">' +  row.email +'</a>'},
       { head: 'Serial', cl: 'center',
         html: (row) => row.serial},
   ];
@@ -35,7 +37,6 @@ d3.json("/users/all", function(err, data) {
               d3.keys(c).forEach((k) => {
                   cell[k] = typeof c[k] == 'function' ? c[k](row) : c[k];
               });
-              console.log("CELL: ", cell)
               return cell;
           });
       }).enter()

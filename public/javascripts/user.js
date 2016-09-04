@@ -1,15 +1,24 @@
-d3.json("/users/user1@gmail.com", function(err, data) {
-  if(err) throw err;
+var path = encodeURIComponent(window.location.pathname);
 
+d3.json("/callapi?path=" + path, function(err, data) {
+  if(err) throw err;
   var data = JSON.parse(data);
 
   var columns = [
+      { head: 'ID', cl: 'title',
+        html: (row, i) => i},
       { head: 'Live Percent', cl: 'title',
         html: (row) => row.print_data.livePercent},
       { head: 'Dead Percent', cl: 'center',
         html: (row) => row.print_data.deadPercent},
       { head: 'Elasticity', cl: 'center',
-        html: (row) => row.print_data.elasticity}
+        html: (row) => row.print_data.elasticity},
+      { head: 'CL Enabled', cl: 'center',
+        html: (row) => row.print_info.crosslinking.cl_enabled},
+      { head: 'CL Duration', cl: 'center',
+        html: (row) => row.print_info.crosslinking.cl_duration},
+      { head: 'CL Intensity', cl: 'center',
+        html: (row) => row.print_info.crosslinking.cl_intensity}
   ];
 
   // create table
@@ -35,7 +44,7 @@ d3.json("/users/user1@gmail.com", function(err, data) {
               // compute cell values for this specific row
               var cell = {};
               d3.keys(c).forEach((k) => {
-                  cell[k] = typeof c[k] == 'function' ? c[k](row) : c[k];
+                  cell[k] = typeof c[k] == 'function' ? c[k](row, i) : c[k];
               });
               return cell;
           });
@@ -45,3 +54,4 @@ d3.json("/users/user1@gmail.com", function(err, data) {
       .attr('class', (column) => column.cl);
 
 })
+

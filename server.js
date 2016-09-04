@@ -14,30 +14,18 @@ app.use('/public', express.static(__dirname + '/public'));
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
-app.use('/admin', function(req, res) {
+app.get('/admin', function(req, res) {
 	res.render('admin');
 });
 
-app.use('/user', function(req, res) {
+app.get('/users/:email/prints', function(req, res) {
 	res.render('user');
 });
 
-app.get('/users/all', function(req, res) {
+app.get('/callapi', function(req, res) {
 	var baseURL = process.env.API_URL || "https://biobots-api.herokuapp.com";
-	var url = baseURL + "/users/all";
-	request(url, function (error, response, body) {
-	  if (!error && response.statusCode == 200) {
-	    res.status(httpStatus.OK).json(body);
-	  } else {
-	  	console.log(error);
-	  }
-	})
-})
-
-app.get('/users/:email', function(req, res) {
-	var email = req.params.email;
-	var baseURL = process.env.API_URL || "https://biobots-api.herokuapp.com";
-	var url = baseURL + "/users/" + email + "/prints";
+	var path = decodeURIComponent(req.query.path);
+	var url = baseURL + path;
 	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    res.status(httpStatus.OK).json(body);
